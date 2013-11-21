@@ -18,6 +18,13 @@
 
 @property NSInteger operation;//どの演算子が押されたかの判別
 
+@property NSInteger pushOperation;//以前に演算子が押されているかどうかの判別
+
+@property NSInteger enableEqual;//イコールボタンを押すことができるかの判別
+
+@property NSInteger enableOperation;//演算子ボタンを押すことができるかの判別
+
+@property NSInteger enableDecimalPoint;//小数点ボタンを押すことができるかどうかの判別
 
 - (IBAction)numberButtom:(id)sender;
 
@@ -26,6 +33,8 @@
 - (IBAction)clearButtom:(id)sender;
 
 - (IBAction)equalButtom:(id)sender;
+
+- (IBAction)decimalPointButtom:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UILabel *Result;
 
