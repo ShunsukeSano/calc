@@ -23,31 +23,43 @@
     self.enableEqual = NO;
     self.enableOperation = NO;
     self.enableDecimalPoint = YES;
-    	// Do any additional setup after loading the view, typically from a nib.
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)calculate
 {
-    if(self.operation == 0)
-        self.currentValue /= self.transrateValue;
+    switch(self.operation){
+        case 0:
+            if(self.transrateValue != 0)
+                self.currentValue /= self.transrateValue;
+            else{
+                _Result.text = [NSString
+                            stringWithFormat:@".E"];
+                self.enableOperation = NO;
+                self.enableEqual = NO;
+                self.enableDecimalPoint = NO;
+                break;
+            }
     
-    else if(self.operation == 1)
-        self.currentValue *= self.transrateValue;
+        case 1: self.currentValue *= self.transrateValue;
+                _Result.text = [NSString
+                            stringWithFormat:@"%g", self.currentValue];
+                break;
     
-    else if(self.operation == 2)
-        self.currentValue -= self.transrateValue;
+        case 2: self.currentValue -= self.transrateValue;
+                _Result.text = [NSString
+                            stringWithFormat:@"%g", self.currentValue];
+                break;
     
-    else if(self.operation == 3)
-        self.currentValue += self.transrateValue;
+        case 3: self.currentValue += self.transrateValue;
+                _Result.text = [NSString
+                            stringWithFormat:@"%g", self.currentValue];
+                break;
     
-    _Result.text = [NSString
-                    stringWithFormat:@"%d", self.currentValue];
+        case 4: self.currentValue = pow(self.currentValue,self.transrateValue);
+                _Result.text = [NSString
+                            stringWithFormat:@"%g", self.currentValue];
+                break;
+    }
 }
 
 
@@ -58,17 +70,21 @@
                 _Result.text = [NSString
                                 stringWithFormat:@"%d", b.tag];
                 self.isInitialState = NO;
-            }
+            } else
+                _Result.text = [NSString
+                                stringWithFormat:@"0"];
+
+            
         } else {
             _Result.text = [NSString
                             stringWithFormat:@"%@%d", _Result.text,b.tag];
         }
         self.transrateValue = _Result.text.floatValue;
         self.enableOperation = YES;
-    if(self.pushOperation){
-        self.enableEqual = YES;
-        self.enableDecimalPoint = YES;
-    }
+        if(self.pushOperation){
+            self.enableEqual = YES;
+            self.enableDecimalPoint = YES;
+        }
 }
 
 
@@ -85,6 +101,7 @@
             self.operation = b.tag;
             self.isInitialState = YES;
             self.enableOperation = NO;
+            self.enableDecimalPoint = NO;
     }
 }
 
